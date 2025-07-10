@@ -39,7 +39,7 @@
 
   <form id="redirectForm" onsubmit="generateRedirect(event)">
     <h2>Generate Redirect URL</h2>
-    <input type="text" id="inputURL" placeholder="Enter target URL" required>
+    <input type="text" id="inputURL" placeholder="e.g. google.com or https://google.com" required>
     <button type="submit">Generate</button>
   </form>
 
@@ -47,6 +47,8 @@
     <p>Redirect URL:</p>
     <input type="text" id="generatedURL" readonly>
     <button onclick="copyToClipboard()">Copy</button>
+    <br><br>
+    <a id="previewLink" href="#" target="_blank">Visit Redirect Link</a>
   </div>
 
   <script>
@@ -54,19 +56,18 @@
       event.preventDefault();
       const userURL = document.getElementById('inputURL').value.trim();
       const domain = 'https://shorturll-one.vercel.app/?';
-      const redirectURL = domain + encodeURIComponent(userURL);
+      const redirectURL = domain + userURL;
 
-      const outputDiv = document.getElementById('output');
-      const generatedInput = document.getElementById('generatedURL');
-
-      generatedInput.value = redirectURL;
-      outputDiv.style.display = 'block';
+      document.getElementById('generatedURL').value = redirectURL;
+      document.getElementById('previewLink').href = redirectURL;
+      document.getElementById('previewLink').textContent = redirectURL;
+      document.getElementById('output').style.display = 'block';
     }
 
     function copyToClipboard() {
       const generatedInput = document.getElementById('generatedURL');
       generatedInput.select();
-      generatedInput.setSelectionRange(0, 99999); // For mobile
+      generatedInput.setSelectionRange(0, 99999); // Mobile support
       document.execCommand('copy');
       alert('Redirect URL copied to clipboard!');
     }
