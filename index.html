@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL REDIRECTOR</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      width: 300px;
+      padding: 8px;
+    }
+    button {
+      padding: 8px 12px;
+      margin-left: 10px;
+    }
+    #output {
+      margin-top: 20px;
+    }
+    #generatedURL {
+      width: 100%;
+      max-width: 500px;
+      padding: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>URL REDIRECTOR</h1>
+
+  <form id="redirectForm" onsubmit="generateRedirect(event)">
+    <h2>Generate Redirect URL</h2>
+    <input type="text" id="inputURL" placeholder="Enter target URL" required>
+    <button type="submit">Generate</button>
+  </form>
+
+  <div id="output" style="display:none;">
+    <p>Redirect URL:</p>
+    <input type="text" id="generatedURL" readonly>
+    <button onclick="copyToClipboard()">Copy</button>
+  </div>
+
+  <script>
+    function generateRedirect(event) {
+      event.preventDefault();
+      const userURL = document.getElementById('inputURL').value.trim();
+      const domain = 'https://yourdomain.com/?';
+      const redirectURL = domain + encodeURIComponent(userURL);
+
+      const outputDiv = document.getElementById('output');
+      const generatedInput = document.getElementById('generatedURL');
+
+      generatedInput.value = redirectURL;
+      outputDiv.style.display = 'block';
+    }
+
+    function copyToClipboard() {
+      const generatedInput = document.getElementById('generatedURL');
+      generatedInput.select();
+      generatedInput.setSelectionRange(0, 99999); // For mobile
+      document.execCommand('copy');
+      alert('Redirect URL copied to clipboard!');
+    }
+  </script>
+
+</body>
+</html>
